@@ -1,6 +1,13 @@
 import Head from "next/head";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { useSupabaseClient, useSession } from "@supabase/auth-helpers-react";
+import { Button } from "@mui/material";
 
 export default function Home() {
+  const session = useSession();
+  const supabase = useSupabaseClient();
+
   return (
     <>
       <Head>
@@ -11,6 +18,20 @@ export default function Home() {
       </Head>
       <main>
         <h1>Bookworm</h1>
+        <Button variant="contained" onClick={() => supabase.auth.signOut()}>
+          Sign out
+        </Button>
+        <div className="container" style={{ padding: "50px 0 100px 0" }}>
+          {!session ? (
+            <Auth
+              supabaseClient={supabase}
+              appearance={{ theme: ThemeSupa }}
+              theme="dark"
+            />
+          ) : (
+            <p>Account page will go here.</p>
+          )}
+        </div>
       </main>
     </>
   );
