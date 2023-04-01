@@ -1,12 +1,26 @@
 import Head from "next/head";
 import { Auth } from "@supabase/auth-ui-react";
+import { useRouter } from "next/router";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useSupabaseClient, useSession } from "@supabase/auth-helpers-react";
-import { Button } from "@mui/material";
+import {
+  useSupabaseClient,
+  useSession,
+  useUser,
+} from "@supabase/auth-helpers-react";
+import { Container } from "@mui/material";
+import { useEffect } from "react";
 
 export default function Home() {
   const session = useSession();
   const supabase = useSupabaseClient();
+  const user = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/profile");
+    }
+  });
 
   return (
     <>
@@ -16,23 +30,21 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <Container fixed>
         <h1>Bookworm</h1>
-        <Button variant="contained" onClick={() => supabase.auth.signOut()}>
-          Sign out
-        </Button>
-        <div className="container" style={{ padding: "50px 0 100px 0" }}>
+        <Container maxWidth="xs">
           {!session ? (
             <Auth
               supabaseClient={supabase}
               appearance={{ theme: ThemeSupa }}
               theme="dark"
+              providers={["google"]}
             />
           ) : (
-            <p>Account page will go here.</p>
+            <p>Loading...</p>
           )}
-        </div>
-      </main>
+        </Container>
+      </Container>
     </>
   );
 }
