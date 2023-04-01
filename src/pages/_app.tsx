@@ -8,6 +8,7 @@ import lightThemeOptions from "../styles/theme/lightThemeOptions";
 import "../styles/globals.css";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
+import Navbar from "@/components/Navbar";
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -30,6 +31,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={lightTheme}>
           <CssBaseline />
+          <Navbar />
           <Component {...pageProps} />
         </ThemeProvider>
       </CacheProvider>
