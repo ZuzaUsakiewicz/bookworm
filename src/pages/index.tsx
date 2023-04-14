@@ -7,8 +7,10 @@ import {
   useSession,
   useUser,
 } from "@supabase/auth-helpers-react";
-import { Container } from "@mui/material";
+import { Container, Stack, Box, Card, Typography } from "@mui/material";
 import { useEffect } from "react";
+import Image from "next/image";
+import bookIcon from "../../public/Book3dIcon.svg";
 
 export default function Home() {
   const session = useSession();
@@ -30,20 +32,29 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container fixed>
-        <h1>Bookworm</h1>
-        <Container maxWidth="xs">
-          {!session ? (
-            <Auth
-              supabaseClient={supabase}
-              appearance={{ theme: ThemeSupa }}
-              theme="dark"
-              providers={["google"]}
-            />
-          ) : (
-            <p>Loading...</p>
-          )}
-        </Container>
+      <Container fixed maxWidth="md" sx={{ height: "100vh" }}>
+        <Typography variant="h2" component="h1">
+          Bookworm
+        </Typography>
+        <Stack direction={{ xs: "column", sm: "row" }}>
+          <Box m="auto">
+            <Image src={bookIcon} alt="book icon" width="300" height="300" />
+          </Box>
+          <Card elevation={3} sx={{ minWidth: "300px" }}>
+            <Container maxWidth="xs">
+              {!session ? (
+                <Auth
+                  supabaseClient={supabase}
+                  appearance={{ theme: ThemeSupa }}
+                  theme="light"
+                  providers={[]}
+                />
+              ) : (
+                <p>Loading...</p>
+              )}
+            </Container>
+          </Card>
+        </Stack>
       </Container>
     </>
   );
