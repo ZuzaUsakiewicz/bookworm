@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@supabase/auth-helpers-react";
+import Navbar from "@/components/Navbar";
 
-export default function Profile() {
+type Props = {
+  children: string | JSX.Element | JSX.Element[];
+};
+export default function Layout({ children }: Props) {
   const user = useUser();
   const router = useRouter();
 
@@ -11,5 +15,10 @@ export default function Profile() {
       router.push("/");
     }
   });
-  return <div>Profile</div>;
+  return (
+    <div>
+      <Navbar />
+      {children}
+    </div>
+  );
 }
